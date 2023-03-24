@@ -1,0 +1,38 @@
+---
+title: DSA8023 Analytathon 1
+subtitle: Data Cleaning
+author: Abraham Wilson
+date: '`r format(Sys.Date())`'
+output: html_document
+---
+
+```{r}
+library(readxl)
+library(kableExtra)
+library(DT)
+```
+
+To begin with the processing the dataset provided, we will need to merge the two workbook documents provided to us. These excel file are available in the data/raw folder.
+
+Below, we will merge the two excel files into one big excel file and convert it to csv for easier processing. To do this, we will need to import the two files.
+
+```{r}
+energia_data_1 <- read_xlsx("C:/Projects/Analytathon1/data/raw/WB1_Energia_Challenge_March_2023_Data.xlsx", sheet = 2)
+energia_data_2 <- read_xlsx("C:/Projects/Analytathon1/data/raw/WB2_Energia_Challenge_March_2023_Data.xlsx", sheet = 2)
+
+write.csv2(rbind(energia_data_1, energia_data_2), "C:/Projects/Analytathon1/data/processed/Energia_Challenge_March_2023_Data_Merged.csv", row.names = FALSE)
+```
+
+```{r}
+energia_data_complete <- read.csv2("C:/Projects/Analytathon1/data/processed/Energia_Challenge_March_2023_Data_Merged.csv")
+
+dim(energia_data_complete)
+```
+
+You can see that we have successfully merged the two datasets using the `rbind()`.
+
+Now let us use the `datatable()` from the DT package along with the `head()` to see the first 50 rows of the combined data file.
+```{r}
+datatable(head(energia_data_complete, n = 50), options = list(scrollX = TRUE))
+```
+
